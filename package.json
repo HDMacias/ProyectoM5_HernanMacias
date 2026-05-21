@@ -1,0 +1,13 @@
+{
+  "name": "github-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP Server para automatizar operaciones en GitHub con AI",
+  "type": "module",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/server.ts",
+    "test": "vitest",
+    "lint": "tsc --noEmit"
+  }
+}
