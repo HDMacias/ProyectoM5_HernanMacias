@@ -28,9 +28,9 @@ export const CreateIssueSchema = z.object({
   body: z.string().optional(),
 });
 
-export const ListRepositoriesschema = z.object({
+export const ListRepositoriesSchema = z.object({
   limit: z
-    .numeber()
+    .number()
     .int()
     .min(1)
     .max(100)
@@ -42,16 +42,16 @@ export const CreateCommitSchema = z.object({
   repo: repoNameSchema,
   message: z
     .string()
-    .min(1, 'El mensaje del commit es requerido')
+    .min(1, 'El mensaje del commit es requerido'),
   filename: z
     .string()
     .min(1, 'El nombre del archivo es requerido'),
   content: z
     .string()
-    .min(1, 'El contenido del archivo es requerido')
+    .min(1, 'El contenido del archivo es requerido'),
 });
 
-export const listIssuesSchema = z.object({
+export const ListIssuesSchema = z.object({
   owner: ownerSchema,
   repo: repoNameSchema,
 });
