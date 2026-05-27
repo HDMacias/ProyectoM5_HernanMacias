@@ -35,7 +35,7 @@ export function toHumanMessage(error: unknown): string {
   }
 
   if (error instanceof ValidationError) {
-    return 'Error de validación: ${error.message}';
+    return `Error de validación: ${error.message}`;
   }
 
   if (error instanceof GitHubAPIError) {
@@ -43,22 +43,32 @@ export function toHumanMessage(error: unknown): string {
       return 'Recurso no encontrado. Verifica que el repositorio o usuario exista.';
     }
 
-
     if (error.statusCode === 422) {
-      return 'Datos invalidos para GitHub. ${error.message}';
+      return `Datos invalidos para GitHub. ${error.message}`;
     }
 
     if (error.statusCode === 403) {
       return 'Sin permisos para realizar esta acción. Verifica los scopes de tu token';
     }
-    return 'Error de GitHub: ${error.message}';
+
+    if (error.statusCode === 401) {
+      return 'No autorizado. El token de GitHub es inválido o ha expirado.';
+    }
+
+    if (error.statusCode === 429) {
+      return 'Limite de requests excedido. GitHub está limitando las peticiones. Intenta de nuevo más tarde.';
+    }
+
+    return `Error de GitHub: ${error.message}`;
   }
 
   if (error instanceof NetworkError) {
     return 'Error de conexión. Verifica tu internet e intenta de nuevo';
   }
+
   if (error instanceof Error) {
-    return 'Error inesperado: ${error.message}';
+    return `Error inesperado: ${error.message}`;
   }
+
   return 'Ocurrió un error desconocido';
 }
