@@ -534,6 +534,12 @@ copies of the Software.
 
 ---
 
+## Enlaces importantes
+
+- Repositorio: https://github.com/HDMacias/ProyectoM5_HernanMacias
+
+---
+
 ## 🤝 Contribuciones
 
 ¿Quieres mejorar este proyecto?
@@ -569,4 +575,4 @@ Tools adicionales en el roadmap:
 
 ---
 
-**Hecho con ❤️ por AutomateHub**
+
