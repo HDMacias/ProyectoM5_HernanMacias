@@ -4,7 +4,7 @@ import { logInfo} from '../utils/logging.js';
 
 let octokitInstance: Octokit | null = null;
 
-export function getOctokitInstance(): Octokit {
+export function getOctokitClient(): Octokit {
   if (octokitInstance) {
     return octokitInstance;
   }

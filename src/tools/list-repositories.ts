@@ -25,9 +25,9 @@ export async function handleListRepositories(args: unknown) {
   const parsed = ListRepositoriesSchema.safeParse(args);
 
   if (!parsed.success) {
-    const message = parsed.error.errors.map(e => e.message).join(', ');
+    const message = parsed.error.issues.map(e => e.message).join(', ');
     return {
-      content: [{ type: 'text', text: `Error de validación: ${message}` }],
+      content: [{ type: 'text' as const, text: `Error de validación: ${message}` }],
       isError: true,
     };
   }
@@ -38,18 +38,18 @@ export async function handleListRepositories(args: unknown) {
 
     if (repos.length === 0) {
       return {
-        content: [{ type: 'text', text: 'No se encontraron repositorios.' }],
+        content: [{ type: 'text' as const, text: 'No se encontraron repositorios.' }],
       };
     }
 
     const repoList = repos
-      .map(r => `- ${r.name} (${r.private ? 'Privado' : 'Público'}) → ${r.html_url}`)
+      .map((r: { name: string; private: boolean; html_url: string }) => `- ${r.name} (${r.private ? 'Privado' : 'Público'}) → ${r.html_url}`)
       .join('\n');
 
     return {
       content: [
         {
-          type: 'text',
+          type: 'text' as const,
           text: `Se encontraron ${repos.length} repositorios:\n\n${repoList}`,
         },
       ],
@@ -57,7 +57,7 @@ export async function handleListRepositories(args: unknown) {
   } catch (error) {
     logError('Error al listar repositorios', error);
     return {
-      content: [{ type: 'text', text: toHumanMessage(error) }],
+      content: [{ type: 'text'as const, text: toHumanMessage(error) }],
       isError: true,
     };
   }

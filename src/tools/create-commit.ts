@@ -41,9 +41,9 @@ export async function handleCreateCommit(args: unknown) {
   const parsed = CreateCommitSchema.safeParse(args);
 
   if (!parsed.success) {
-    const message = parsed.error.errors.map(e => e.message).join(', ');
+    const message = parsed.error.issues.map(e => e.message).join(', ');
     return {
-      content: [{ type: 'text', text: `Error de validación: ${message}` }],
+      content: [{ type: 'text' as const, text: `Error de validación: ${message}` }],
       isError: true,
     };
   }
@@ -54,7 +54,7 @@ export async function handleCreateCommit(args: unknown) {
     return {
       content: [
         {
-          type: 'text',
+          type: 'text' as const,
           text: `Commit creado exitosamente.\nArchivo: ${parsed.data.filename}\nMensaje: ${parsed.data.message}\nURL: ${result.content?.html_url ?? 'N/A'}`,
         },
       ],
@@ -62,7 +62,7 @@ export async function handleCreateCommit(args: unknown) {
   } catch (error) {
     logError('Error al crear commit', error);
     return {
-      content: [{ type: 'text', text: toHumanMessage(error) }],
+      content: [{ type: 'text' as const, text: toHumanMessage(error) }],
       isError: true,
     };
   }

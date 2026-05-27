@@ -22,7 +22,7 @@ export class AuthenticationError extends Error {
   }
 }
 
-export class NetworKError extends Error {
+export class NetworkError extends Error {
   constructor(message: string) {
     super(message);
     this.name = 'NetworkError';
@@ -54,7 +54,7 @@ export function toHumanMessage(error: unknown): string {
     return 'Error de GitHub: ${error.message}';
   }
 
-  if (error instanceof NetworKError) {
+  if (error instanceof NetworkError) {
     return 'Error de conexión. Verifica tu internet e intenta de nuevo';
   }
   if (error instanceof Error) {

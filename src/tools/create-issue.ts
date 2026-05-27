@@ -37,9 +37,9 @@ export async function handleCreateIssue(args: unknown) {
   const parsed = CreateIssueSchema.safeParse(args);
 
   if (!parsed.success) {
-    const message = parsed.error.errors.map(e => e.message).join(', ');
+    const message = parsed.error.issues.map(e => e.message).join(', ');
     return {
-      content: [{ type: 'text', text: `Error de validación: ${message}` }],
+      content: [{ type: 'text' as const, text: `Error de validación: ${message}` }],
       isError: true,
     };
   }
@@ -50,7 +50,7 @@ export async function handleCreateIssue(args: unknown) {
     return {
       content: [
         {
-          type: 'text',
+          type: 'text' as const,
           text: `Issue #${issue.number} creado exitosamente.\nTítulo: ${issue.title}\nURL: ${issue.html_url}`,
         },
       ],
@@ -58,7 +58,7 @@ export async function handleCreateIssue(args: unknown) {
   } catch (error) {
     logError('Error al crear issue', error);
     return {
-      content: [{ type: 'text', text: toHumanMessage(error) }],
+      content: [{ type: 'text' as const, text: toHumanMessage(error) }],
       isError: true,
     };
   }

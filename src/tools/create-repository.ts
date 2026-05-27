@@ -33,9 +33,9 @@ export async function handleCreateRepository(args: unknown) {
   const parsed = CreateRepositorySchema.safeParse(args);
 
   if (!parsed.success) {
-    const message = parsed.error.errors.map(e => e.message).join(', ');
+    const message = parsed.error.issues.map(e => e.message).join(', ');
     return {
-      content: [{ type: 'text', text: `Error de validación: ${message}` }],
+      content: [{ type: 'text' as const, text: `Error de validación: ${message}` }],
       isError: true,
     };
   }
@@ -46,7 +46,7 @@ export async function handleCreateRepository(args: unknown) {
     return {
       content: [
         {
-          type: 'text',
+          type: 'text' as const,
           text: `Repositorio "${repo.name}" creado exitosamente.\nURL: ${repo.html_url}\nVisibilidad: ${repo.private ? 'Privado' : 'Público'}`,
         },
       ],
@@ -54,7 +54,7 @@ export async function handleCreateRepository(args: unknown) {
   } catch (error) {
     logError('Error al crear repositorio', error);
     return {
-      content: [{ type: 'text', text: toHumanMessage(error) }],
+      content: [{ type: 'text' as const, text: toHumanMessage(error) }],
       isError: true,
     };
   }

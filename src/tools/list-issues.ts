@@ -29,9 +29,9 @@ export async function handleListIssues(args: unknown) {
   const parsed = ListIssuesSchema.safeParse(args);
 
   if (!parsed.success) {
-    const message = parsed.error.errors.map(e => e.message).join(', ');
+    const message = parsed.error.issues.map(e => e.message).join(', ');
     return {
-      content: [{ type: 'text', text: `Error de validación: ${message}` }],
+      content: [{ type: 'text' as const, text: `Error de validación: ${message}` }],
       isError: true,
     };
   }
@@ -42,18 +42,18 @@ export async function handleListIssues(args: unknown) {
 
     if (issues.length === 0) {
       return {
-        content: [{ type: 'text', text: `No hay issues abiertos en ${parsed.data.owner}/${parsed.data.repo}.` }],
+        content: [{ type: 'text' as const, text: `No hay issues abiertos en ${parsed.data.owner}/${parsed.data.repo}.` }],
       };
     }
 
     const issueList = issues
-      .map(i => `- #${i.number} ${i.title} → ${i.html_url}`)
+      .map((i: { number: number; title: string; html_url: string }) => `- #${i.number} ${i.title} → ${i.html_url}`)
       .join('\n');
 
     return {
       content: [
         {
-          type: 'text',
+          type: 'text' as const,
           text: `Issues abiertos en ${parsed.data.owner}/${parsed.data.repo} (${issues.length}):\n\n${issueList}`,
         },
       ],
@@ -61,7 +61,7 @@ export async function handleListIssues(args: unknown) {
   } catch (error) {
     logError('Error al listar issues', error);
     return {
-      content: [{ type: 'text', text: toHumanMessage(error) }],
+      content: [{ type: 'text' as const, text: toHumanMessage(error) }],
       isError: true,
     };
   }
